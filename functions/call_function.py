@@ -38,7 +38,10 @@ def call_function(tool_call, verbose: bool = False) -> dict:
         }
 
     function_args["working_directory"] = WORKING_DIR
-    result = function_map[function_name](**function_args)
+    try:
+        result = function_map[function_name](**function_args)
+    except TypeError as e:
+        result = f"Error: {e}"
 
     return {
         "role": "tool",
